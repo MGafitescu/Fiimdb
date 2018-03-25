@@ -35,6 +35,14 @@ public class MovieService {
 		movie.setDirector(movieEntity.getDirector());
 		movie.setDescription(movieEntity.getDescription());
 		movie.setWriter(movieEntity.getWriter());
+		StringBuilder movieGenre = new StringBuilder();
+		for(GenreEntity genre: movieEntity.getGenres())
+		{
+		 movieGenre.append(genre.getType());
+		 movieGenre.append(" ");
+		}
+		movie.setGenre(movieGenre.toString());
+	
 		/*
 		 * TO DO:
 		 * set the list of genres for the movie
@@ -48,7 +56,11 @@ public class MovieService {
 	 * Declare the search method
 	 * public List<Movie> search(String criteria, String value) {}
 	 */
-	
+	public List<MovieEntity> search(String criteria, String value)
+	{
+		List<MovieEntity> movies = new ArrayList<MovieEntity>();
+		return movies;
+	}
 
 
 }

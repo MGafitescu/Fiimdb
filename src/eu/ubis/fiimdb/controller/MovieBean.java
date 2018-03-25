@@ -28,8 +28,8 @@ public class MovieBean {
 	
 	public List<MovieEntity> search(String criteria, String value)
 	{
-		List<MovieEntity> movies = new ArrayList<MovieEntity>();
-		return movies;
+		List<MovieEntity> moviesEntity = new ArrayList<MovieEntity>();
+		return moviesEntity;
 	}
 	
 	

@@ -9,6 +9,11 @@ public class GenreEntity {
 	 * 2. generate getters and setters
 	 * 3. override hashcode and equals
 	 */
+	public GenreEntity(int id, String type)
+	{
+		this.id=id;
+		this.type=type;
+	}
 	public int getId() {
 		return id;
 	}

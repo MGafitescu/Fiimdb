@@ -89,6 +89,7 @@
 							<%=movie.getReleaseDate()%><br /> Director:
 							<%=movie.getDirector()%><br /> Rating:
 							<%=movie.getRating()%><br /> Genre: 
+							<%=movie.getGenre()%><br>
 							<!-- TO DO: add the genre --> <br />
 							<p>
 								Storyline:
