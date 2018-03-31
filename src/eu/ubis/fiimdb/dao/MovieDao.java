@@ -1,19 +1,32 @@
-package eu.ubis.fiimdb.db.entity;
+package eu.ubis.fiimdb.dao;
 
 import java.util.Date;
-import java.util.*;
+import java.util.List;
 
-public class MovieEntity {
+import javax.persistence.*;
+
+@Entity
+@Table(schema = "fiimdb", name = "movie")
+@NamedQuery(name="getAllMovies", query="SELECT m FROM MovieDao m")
+public class MovieDao {
+	@Id
+	@Column
+	@SequenceGenerator(name="movie_seq", schema="fiimdb", sequenceName="movie_id_seq", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_seq")
 	private int id;
+	
+	@Column(name="RELEASE_DATE")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date releaseDate;
+	
 	private String name;
+	
 	private double rating;
 	private int length;
 	private String casting;
 	private String director;
 	private String description;
 	private String writer;
-	private List<GenreEntity> genres;
 	/*
 	 * TO DO:
 	 * 1. add a list of GenreEntity (hint: private List<GenreEntity> genres;)
@@ -22,16 +35,19 @@ public class MovieEntity {
 	 * 4. override equals and hashcode
 	 */
 	
-	public MovieEntity()
-	{
-		genres =  new ArrayList<GenreEntity>();
-	}
+	@ManyToMany
+	@JoinTable(name = "movie_genre", 
+		joinColumns = @JoinColumn(name = "ID_MOVIE", referencedColumnName = "ID"), 
+		inverseJoinColumns = @JoinColumn(name = "ID_GENRE", referencedColumnName = "ID"))
+	private List<GenreDao> genres;
+	
+	
 
-	public List<GenreEntity> getGenres() {
+	public List<GenreDao> getGenres() {
 		return genres;
 	}
 
-	public void setGenres(List<GenreEntity> genres) {
+	public void setGenres(List<GenreDao> genres) {
 		this.genres = genres;
 	}
 
@@ -106,34 +122,4 @@ public class MovieEntity {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MovieEntity other = (MovieEntity) obj;
-		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
-
-
 }

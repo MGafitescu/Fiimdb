@@ -3,27 +3,34 @@ package eu.ubis.fiimdb.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.ubis.fiimdb.db.entity.GenreEntity;
-import eu.ubis.fiimdb.db.entity.MovieEntity;
-import eu.ubis.fiimdb.db.repository.MovieRepository;
-import eu.ubis.fiimdb.db.repository.RepositoryFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import eu.ubis.fiimdb.dao.MovieDao;
+import eu.ubis.fiimdb.dao.GenreDao;
 import eu.ubis.fiimdb.model.Movie;
 
 public class MovieService {
 
-	public List<Movie> getMovies() {
-		MovieRepository movieRepository = RepositoryFactory.getMovieRepository();
-		List<MovieEntity> movieEntities = movieRepository.getAllMovies();
+	private EntityManager entityManager;
+	public MovieService() {
+		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("fiimdb");
+		entityManager = emFactory.createEntityManager();
+	}
 
+	public List<Movie> getMovies() {
+		List<MovieDao> movieEntities = entityManager.createNamedQuery("getAllMovies", MovieDao.class).getResultList();
+		
 		List<Movie> movies = new ArrayList<Movie>();
-		for (MovieEntity movieEntity : movieEntities) {
+		for (MovieDao movieEntity : movieEntities) {
 			Movie movie = mapMovieEntityToModel(movieEntity);
 			movies.add(movie);
 		}
 		return movies;
 	}
 
-	private Movie mapMovieEntityToModel(MovieEntity movieEntity) {
+	private Movie mapMovieEntityToModel(MovieDao movieEntity) {
 		Movie movie = new Movie();
 
 		movie.setId(movieEntity.getId());
@@ -36,7 +43,7 @@ public class MovieService {
 		movie.setDescription(movieEntity.getDescription());
 		movie.setWriter(movieEntity.getWriter());
 		StringBuilder movieGenre = new StringBuilder();
-		for(GenreEntity genre: movieEntity.getGenres())
+		for(GenreDao genre: movieEntity.getGenres())
 		{
 		 movieGenre.append(genre.getType());
 		 movieGenre.append(" ");
@@ -56,9 +63,9 @@ public class MovieService {
 	 * Declare the search method
 	 * public List<Movie> search(String criteria, String value) {}
 	 */
-	public List<MovieEntity> search(String criteria, String value)
+	public List<MovieDao> search(String criteria, String value)
 	{
-		List<MovieEntity> movies = new ArrayList<MovieEntity>();
+		List<MovieDao> movies = new ArrayList<MovieDao>();
 		return movies;
 	}
 
