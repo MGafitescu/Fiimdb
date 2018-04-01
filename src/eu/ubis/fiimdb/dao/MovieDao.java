@@ -7,7 +7,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(schema = "fiimdb", name = "movie")
-@NamedQuery(name="getAllMovies", query="SELECT m FROM MovieDao m")
+@NamedQueries({
+@NamedQuery(name="getAllMovies", query="SELECT m FROM MovieDao m"),
+@NamedQuery(name="searchByName", query="SELECT m FROM MovieDao m where m.name like ?1"),
+@NamedQuery(name="searchByYear", query="SELECT m FROM MovieDao m where extract(year from m.releaseDate) = ?1"),
+
+})
 public class MovieDao {
 	@Id
 	@Column

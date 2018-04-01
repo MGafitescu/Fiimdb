@@ -3,10 +3,7 @@ package eu.ubis.fiimdb.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
+import javax.persistence.*;
 import eu.ubis.fiimdb.dao.MovieDao;
 import eu.ubis.fiimdb.dao.GenreDao;
 import eu.ubis.fiimdb.model.Movie;
@@ -49,12 +46,7 @@ public class MovieService {
 		 movieGenre.append(" ");
 		}
 		movie.setGenre(movieGenre.toString());
-	
-		/*
-		 * TO DO:
-		 * set the list of genres for the movie
-		 */
-		
+
 		return movie;
 	}
 
@@ -63,9 +55,38 @@ public class MovieService {
 	 * Declare the search method
 	 * public List<Movie> search(String criteria, String value) {}
 	 */
-	public List<MovieDao> search(String criteria, String value)
+	public List<Movie> search(String criteria, String value)
 	{
-		List<MovieDao> movies = new ArrayList<MovieDao>();
+		List<MovieDao> movieEntities;
+		List<Movie> movies = new ArrayList<Movie>();
+		if(criteria.equals("name"))
+            {
+			TypedQuery<MovieDao> search = entityManager.createNamedQuery("searchByName", MovieDao.class);
+			search.setParameter(1,"%"+value+"%");
+			movieEntities = search.getResultList();
+            }
+		else if (criteria.equals("year"))
+			{
+			TypedQuery<MovieDao> search = entityManager.createNamedQuery("searchByYear", MovieDao.class);
+			search.setParameter(1, Integer.parseInt(value));
+			movieEntities = search.getResultList();
+            }
+		else if(criteria.equals("genre"))
+			{
+			 List<Movie> searchedMovies = new ArrayList<Movie>();
+			 movies=this.getMovies();
+			 for(Movie movie: movies)
+				 if(movie.getGenre().contains(value))
+					searchedMovies.add(movie);
+			 return searchedMovies;
+            }
+		else
+			movieEntities = new ArrayList<MovieDao>();
+	
+		for (MovieDao movieEntity : movieEntities) {
+			Movie movie = mapMovieEntityToModel(movieEntity);
+			movies.add(movie);
+		}
 		return movies;
 	}
 

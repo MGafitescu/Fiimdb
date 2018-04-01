@@ -11,25 +11,22 @@ import eu.ubis.fiimdb.service.ServiceFactory;
 public class MovieBean {
 	private MovieService movieService = ServiceFactory.getMovieService();
 	private List<Movie> movies = new ArrayList<Movie>();
+	private List<Movie> searchedMovies = new ArrayList<Movie>();
 	
 	public void getAllMovies() {
 		movies = movieService.getMovies();
 		
 	}
 	
-	 /* 
-	  * TO DO: 
-	  *  declare the search method
-	  */
 
 	public List<Movie> getMovies() {
 		return movies;
 	}
 	
-	public List<MovieDao> search(String criteria, String value)
+	public List<Movie> search(String criteria, String value)
 	{
-		List<MovieDao> moviesEntity = new ArrayList<MovieDao>();
-		return moviesEntity;
+		searchedMovies = movieService.search(criteria,value);
+		return searchedMovies;
 	}
 	
 	
