@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NamedQuery(name="getAllMovies", query="SELECT m FROM MovieDao m"),
 @NamedQuery(name="searchByName", query="SELECT m FROM MovieDao m where m.name like ?1"),
 @NamedQuery(name="searchByYear", query="SELECT m FROM MovieDao m where extract(year from m.releaseDate) = ?1"),
+@NamedQuery(name="getById", query="SELECT m FROM MovieDao m where m.id= ?1"),
 
 })
 public class MovieDao {

@@ -14,21 +14,21 @@
 <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean> 
+	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean"
+		scope="request"></jsp:useBean>
 
 	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<div class="navbar-brand">
-					<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017 </a>
-				</div>	
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<div class="navbar-brand">
+				<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017
+				</a>
 			</div>
 		</div>
+	</div>
 	</nav>
 
-	<div class="navbar-header">
-		
-	</div>
+	<div class="navbar-header"></div>
 
 	<div class="container">
 		<fieldset>
@@ -37,11 +37,20 @@
 			<form action="SearchServlet" method="GET">
 				<div class="col-sm-8">
 					<div class="form-group">
-						<% if (request.getParameter("searchedValue") == null) { %>
-							<input type="text" class="form-control" placeholder="Search..."  name="searchedValue">
-						<%} else { %>
-							<input type="text" class="form-control" value="<%=request.getParameter("searchedValue") %>"  name="searchedValue">
-						<% } %>
+						<%
+							if (request.getParameter("searchedValue") == null) {
+						%>
+						<input type="text" class="form-control" placeholder="Search..."
+							name="searchedValue">
+						<%
+							} else {
+						%>
+						<input type="text" class="form-control"
+							value="<%=request.getParameter("searchedValue")%>"
+							name="searchedValue">
+						<%
+							}
+						%>
 					</div>
 				</div>
 
@@ -51,20 +60,29 @@
 
 				<div class="form-group col-sm-8">
 					<div class="col-sm-4">
-						<label class="radio-inline"> 
-							<input type="radio" class="form-check-input" name="searchType" value="name" checked="<%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("name") == true ? true : false%>"/> By Name
+						<label class="radio-inline"> <input type="radio"
+							class="form-check-input" name="searchType" value="name"
+							checked="<%=request.getAttribute("searchType") != null
+					&& request.getAttribute("searchType").equals("name") == true ? true : false%>" />
+							By Name
 						</label>
 					</div>
-					
+
 					<div class="col-sm-4">
-						<label class="radio-inline"> 
-							<input type="radio" class="form-check-input" name="searchType" value="genre" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("genre") == true ? "checked" : ""%>/> By Genre
+						<label class="radio-inline"> <input type="radio"
+							class="form-check-input" name="searchType" value="genre"
+							<%=request.getAttribute("searchType") != null
+					&& request.getAttribute("searchType").equals("genre") == true ? "checked" : ""%> />
+							By Genre
 						</label>
 					</div>
-					
+
 					<div class="col-sm-4">
-						<label class="radio-inline"> 
-							<input type="radio" class="form-check-input" name="searchType" value="year" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("year") == true ? "checked" : ""%>/> By Release Year
+						<label class="radio-inline"> <input type="radio"
+							class="form-check-input" name="searchType" value="year"
+							<%=request.getAttribute("searchType") != null
+					&& request.getAttribute("searchType").equals("year") == true ? "checked" : ""%> />
+							By Release Year
 						</label>
 					</div>
 				</div>
@@ -73,7 +91,6 @@
 		<div class="movie-container">
 			<ul class="list-group">
 				<%
-					
 					for (Movie movie : movieBean.getMovies()) {
 				%>
 
@@ -88,17 +105,26 @@
 							Release date:
 							<%=movie.getReleaseDate()%><br /> Director:
 							<%=movie.getDirector()%><br /> Rating:
-							<%=movie.getRating()%><br /> Genre: 
+							<%=movie.getRating()%><br /> Genre:
 							<%=movie.getGenre()%><br>
-							<!-- TO DO: add the genre --> <br />
+							<!-- TO DO: add the genre -->
+							<br />
 							<p>
 								Storyline:
 								<%=movie.getDescription()%>
 							</p>
 
 						</div>
-
+						<div class="col-sm-4">
+						<a href="<%out.write("edit-movie?movieId="+movie.getId());%>" class="btn btn-primary">Edit</a>
+						<a href="<%out.write("delete-movie?movieId="+movie.getId());%>" class="btn btn-primary">Delete</a>
+							
+						</div>
+						
+							
+						
 					</div>
+
 				</li>
 
 				<%

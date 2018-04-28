@@ -53,7 +53,7 @@ public class SearchServlet extends HttpServlet {
 		 */
 		request.setAttribute("searchType", criteria);
 		/*
-		 * 5. redirect to movies.jsp
+		 * 5. redirect to searchedMovies.jsp
 		 */
 		getServletContext().getRequestDispatcher("/searchedMovies.jsp").forward(request, response);
 	}

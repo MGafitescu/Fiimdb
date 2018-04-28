@@ -12,6 +12,7 @@ public class MovieBean {
 	private MovieService movieService = ServiceFactory.getMovieService();
 	private List<Movie> movies = new ArrayList<Movie>();
 	private List<Movie> searchedMovies = new ArrayList<Movie>();
+
 	
 	public void getAllMovies() {
 		movies = movieService.getMovies();
@@ -29,6 +30,16 @@ public class MovieBean {
 		return searchedMovies;
 	}
 	
+   public Movie getSingleMovie(String movieId)
+   {
+	   return movieService.getSingleMovie(movieId);
+	   
+   }
+   
+   public boolean updateMovie(Movie movie, int movieId)
+   {
+	 return movieService.updateMovie(movie, movieId);
+   }
 	
 	
 }
